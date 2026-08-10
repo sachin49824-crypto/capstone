@@ -18,6 +18,14 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
 
 function init() {
   db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS USER (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      role TEXT NOT NULL
+    )`);
+
     db.run(`CREATE TABLE IF NOT EXISTS Driver (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -28,12 +36,10 @@ function init() {
 
     db.run(`CREATE TABLE IF NOT EXISTS Vehicle (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      vin TEXT,
-      plate_number TEXT,
+      vehicle_number TEXT,
       model TEXT,
       status TEXT DEFAULT 'idle',
       current_location TEXT,
-      last_reported_at TEXT,
       driver_id INTEGER,
       FOREIGN KEY(driver_id) REFERENCES Driver(id)
     )`);
@@ -44,46 +50,17 @@ function init() {
       driver_id INTEGER,
       start_time TEXT,
       end_time TEXT,
-      origin TEXT,
-      destination TEXT,
-      status TEXT DEFAULT 'planned',
+      start_location TEXT,
       FOREIGN KEY(vehicle_id) REFERENCES Vehicle(id),
       FOREIGN KEY(driver_id) REFERENCES Driver(id)
     )`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS Alert (
+    db.run(`CREATE TABLE IF NOT EXISTS Location (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       vehicle_id INTEGER,
-      trip_id INTEGER,
-      type TEXT,
-      severity TEXT,
-      message TEXT,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      resolved_at TEXT,
-      status TEXT DEFAULT 'open',
-      FOREIGN KEY(vehicle_id) REFERENCES Vehicle(id),
-      FOREIGN KEY(trip_id) REFERENCES Trip(id)
-    )`);
-
-    db.run(`CREATE TABLE IF NOT EXISTS Maintenance (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      vehicle_id INTEGER,
-      title TEXT,
-      description TEXT,
-      scheduled_date TEXT,
-      completed_date TEXT,
-      status TEXT DEFAULT 'scheduled',
-      FOREIGN KEY(vehicle_id) REFERENCES Vehicle(id)
-    )`);
-
-    db.run(`CREATE TABLE IF NOT EXISTS LocationHistory (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      vehicle_id INTEGER,
-      timestamp TEXT,
       latitude REAL,
       longitude REAL,
-      speed REAL,
-      heading REAL,
+      recorded_at TEXT,
       FOREIGN KEY(vehicle_id) REFERENCES Vehicle(id)
     )`);
 
