@@ -14,28 +14,30 @@ This capstone project is a console-based backend system for vehicle tracking and
 - SQLite data model for fast prototyping
 
 ## Tech Stack
-- Node.js
+- Java 17
+- Maven
 - SQLite
 - Console CLI
 
 ## Project Structure
-- `server.js` - Main console application entry point
-- `db/init.js` - Database schema initialization
-- `db/fleet.db` - Local SQLite database (generated)
+- `pom.xml` - Maven build configuration
+- `src/main/java/com/fleet` - Java source code for the CLI application
+- `README.md` - Project documentation
+- `docs/ER_Diagram.md` - Entity relationship and design documentation
+- `db/fleet.db` - Local SQLite database (generated at runtime)
 
 ## Setup
 1. Open a terminal in the project folder
-2. Run `npm install`
-3. Run `npm run init-db` to create the SQLite schema
-4. Run `npm start`
+2. Run `mvn compile`
+3. Run `mvn exec:java`
 
 ## Console Menu
 - View vehicles
 - Add a vehicle
-- Update vehicle status
+- Update vehicle status or location
 - View drivers
 - Add a driver
-- View trips
+- Monitor trips
 - Show fleet summary
 
 ## System Design
