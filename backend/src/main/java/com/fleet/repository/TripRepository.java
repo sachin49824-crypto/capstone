@@ -1,0 +1,11 @@
+package com.fleet.repository;
+
+import com.fleet.entity.Trip;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface TripRepository extends JpaRepository<Trip, Long> {
+    List<Trip> findByStatus(String status);
+    long countByEndTimeIsNull();
+}

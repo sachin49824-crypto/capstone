@@ -1,204 +1,103 @@
 # Vehicle Tracking and Fleet Monitoring System
 
-## Project Statement
-This project implements a backend-only fleet management console application that supports vehicle tracking, driver assignment, trip management, and location reporting. It is designed as a capstone system to demonstrate database-backed fleet monitoring workflows using a CLI interface and SQLite storage.
-
-## MVP Overview
-This capstone project is a console-based backend system for vehicle tracking and fleet monitoring. It includes vehicle registration, driver assignment, trip logging, location reporting, and fleet summary via a CLI menu.
-
-## MVP Scope
-- Vehicle registration and status tracking
-- Driver profiles and assignment
-- Trip logging and summary
-- Location reporting
-- SQLite data model for fast prototyping
-
-## Tech Stack
-- Java 17
-- Maven
-- SQLite
-- Console CLI
+A capstone fleet monitoring platform combining a React web dashboard with a Spring Boot REST API backed by MySQL.
 
 ## Project Structure
-- `pom.xml` - Maven build configuration
-- `src/main/java/com/fleet` - Java source code for the CLI application
-- `README.md` - Project documentation
-- `docs/ER_Diagram.md` - Entity relationship and design documentation
-- `db/fleet.db` - Local SQLite database (generated at runtime)
 
-## Setup
-1. Open a terminal in the project folder
-2. Run `mvn compile`
-3. Run `mvn exec:java`
-
-## Console Menu
-- View vehicles
-- Add a vehicle
-- Update vehicle status or location
-- View drivers
-- Add a driver
-- Monitor trips
-- Show fleet summary
-
-## System Design
-
-### Architecture Diagram
-
-```mermaid
-flowchart LR
-    User[User Roles]
-    Admin[Admin]
-    FleetManager[Fleet Manager]
-    Driver[Driver]
-    App[Console Application (server.js)]
-    DB[SQLite Database]
-    USER[USER table]
-    VEHICLE[Vehicle table]
-    DRIVER[Driver table]
-    TRIP[Trip table]
-    LOCATION[Location table]
-
-    User -->|selects role| App
-    App -->|reads/writes| DB
-    DB --> USER
-    DB --> VEHICLE
-    DB --> DRIVER
-    DB --> TRIP
-    DB --> LOCATION
-    Admin --> User
-    FleetManager --> User
-    Driver --> User
+```
+├── backend/                 # Spring Boot REST API (Java 21)
+│   ├── pom.xml              # Maven build
+│   └── src/main/
+│       ├── java/com/fleet/
+│       │   ├── config/      # Security config, JWT filter, seed data, exception handler
+│       │   ├── controller/  # REST endpoints
+│       │   ├── dto/         # Request/response records (snake_case JSON)
+│       │   ├── entity/      # JPA entities
+│       │   ├── repository/  # Spring Data repositories
+│       │   ├── security/    # JWT service, auth entry point
+│       │   └── service/     # Business logic
+│       └── resources/application.properties
+├── frontend/                # React + Vite web dashboard
+├── db/                      # Legacy data files (unused by current stack)
+├── docs/                    # ER diagram and problem statement
+└── README.md
 ```
 
-### Use Case Diagram
+## Components
 
-```mermaid
-usecaseDiagram
-    actor Admin
-    actor FleetManager as Fleet
-    actor Driver
+### 1. Web Frontend (React + Vite)
+- Located in `frontend/`
+- Login page and dashboard (vehicles, drivers, trips, live locations, maintenance, fuel)
+- Proxies `/api` to the Spring Boot API on `http://localhost:8080`
 
-    Admin --> (Manage vehicles)
-    Admin --> (Manage drivers)
-    Admin --> (View all vehicles)
-    Admin --> (Monitor vehicle status)
-
-    Fleet --> (View assigned vehicles)
-    Fleet --> (Track current location)
-    Fleet --> (Monitor trips)
-    Fleet --> (Check vehicle status)
-
-    Driver --> (Login)
-    Driver --> (View assigned vehicle)
-    Driver --> (Start trip)
-    Driver --> (End trip)
-    Driver --> (Update location/status)
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-### ER Diagram
+### 2. Spring Boot REST API
+- Located in `backend/` (Spring Boot 3.5.4, Java 21, Spring Security + JWT, Spring Data JPA)
+- Endpoints under `/api`: health, auth, dashboard, vehicles, drivers, trips, locations, maintenance, fuel
+- Stores data in MySQL (schema auto-created via `ddl-auto=update`)
+- Demo login: `admin@fleet.com` / `admin123`
 
-```mermaid
-erDiagram
-    USER {
-        INTEGER id PK
-        TEXT name
-        TEXT email
-        TEXT password
-        TEXT role
-    }
-    VEHICLE {
-        INTEGER id PK
-        TEXT vehicle_number
-        TEXT model
-        TEXT status
-        TEXT current_location
-        INTEGER driver_id FK
-    }
-    DRIVER {
-        INTEGER id PK
-        TEXT name
-        TEXT phone
-        TEXT license_number
-        TEXT status
-    }
-    TRIP {
-        INTEGER id PK
-        INTEGER vehicle_id FK
-        INTEGER driver_id FK
-        TEXT start_time
-        TEXT end_time
-        TEXT start_location
-    }
-    LOCATION {
-        INTEGER id PK
-        INTEGER vehicle_id FK
-        REAL latitude
-        REAL longitude
-        TEXT recorded_at
-    }
+## Prerequisites
 
-    DRIVER ||--o{ VEHICLE : "assigned to"
-    VEHICLE ||--o{ TRIP : "runs"
-    DRIVER ||--o{ TRIP : "drives"
-    VEHICLE ||--o{ LOCATION : "reports"
+- Java 21+
+- Maven 3.9+
+- MySQL running locally on port 3306
+
+## Database Setup
+
+1. Create the config file from the template:
+
+```bash
+cd backend/src/main/resources
+copy application.properties.example application.properties
 ```
 
-### Data Flow Diagram (DFD)
+2. Edit `application.properties` with your MySQL credentials and JWT secret:
 
-```mermaid
-flowchart TD
-    User[Admin / Fleet Manager / Driver]
-    App[Console Application]
-    Role[Role selection]
-    AdminProc[Admin process]
-    FleetProc[Fleet Manager process]
-    DriverProc[Driver process]
-    DB[SQLite database]
-    Tables[TABLES: USER, VEHICLE, DRIVER, TRIP, LOCATION]
-
-    User -->|command input| App
-    App --> Role
-    Role -->|Admin| AdminProc
-    Role -->|Fleet Manager| FleetProc
-    Role -->|Driver| DriverProc
-
-    AdminProc -->|manage vehicles| DB
-    AdminProc -->|manage drivers| DB
-    AdminProc -->|view reports| DB
-    FleetProc -->|lookup assignments| DB
-    FleetProc -->|query trips| DB
-    DriverProc -->|start/end trip| DB
-    DriverProc -->|update location| DB
-
-    DB --> Tables
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/fleet_monitoring?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=YOUR_PASSWORD
+app.jwt.secret=CHANGE_ME_TO_A_LONG_RANDOM_STRING
 ```
 
-### Flowchart
+> `application.properties` is gitignored so credentials stay out of the repository. Commit only the `.example` template.
 
-```mermaid
-flowchart TD
-    Start([Start])
-    Role[Select role]
-    AdminMenu[Admin menu]
-    FleetMenu[Fleet Manager menu]
-    DriverLogin[Driver login]
-    DriverMenu[Driver menu]
-    DBops[Database operations]
-    Continue{Continue?}
-    End([Exit])
+3. Start the API:
 
-    Start --> Role
-    Role -->|Admin| AdminMenu
-    Role -->|Fleet Manager| FleetMenu
-    Role -->|Driver| DriverLogin
-    DriverLogin --> DriverMenu
-    AdminMenu --> DBops
-    FleetMenu --> DBops
-    DriverMenu --> DBops
-    DBops --> Continue
-    Continue -->|Yes| Role
-    Continue -->|No| End
+```bash
+cd backend
+mvn spring-boot:run
 ```
+
+The server runs on `http://localhost:8080`. On first startup it seeds an admin user, three drivers, three vehicles, and sample trip/location/maintenance/fuel records.
+
+## API Overview
+
+| Method | Endpoint | Auth |
+| ------ | -------- | ---- |
+| GET | `/api/health` | public |
+| POST | `/api/auth/login` | public |
+| GET | `/api/dashboard/summary` | any role |
+| GET/POST | `/api/vehicles` | read any, write admin |
+| PUT/DELETE | `/api/vehicles/{id}` | admin |
+| GET/POST | `/api/drivers` | read any, write admin |
+| PUT/DELETE | `/api/drivers/{id}` | admin |
+| GET/POST | `/api/trips` | any role |
+| PUT | `/api/trips/{id}/end` | any role |
+| GET/POST | `/api/locations` | any role |
+| GET/POST | `/api/maintenance` | read any, write admin |
+| GET/POST | `/api/fuel` | read any, write admin |
+
+Login returns `{ "token": "...", "user": { ... } }`; send it as `Authorization: Bearer <token>`. Responses use snake_case JSON for frontend compatibility. Errors return `{ "error": "message" }`.
 
 ## Notes
-This project now runs in the terminal and is ready for backend-only fleet management work.
+
+- MySQL `user` is a reserved word; the `User` entity maps to a backtick-quoted `` `user` `` table.
+- `db/` (legacy `fleet-data.json` / `fleet.db`) is kept for reference but no longer used by the stack.
+- Never commit real database passwords or the JWT secret.

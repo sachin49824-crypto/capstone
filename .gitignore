@@ -1,6 +1,10 @@
 node_modules/
+frontend/node_modules/
 db/*.db
-/target/
+db/fleet-data.json
+/backend/target/
 .vscode/
 .env
-frontend/node_modules/
+.tools/
+frontend/dist/
+backend/src/main/resources/application.properties
