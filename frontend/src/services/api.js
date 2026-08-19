@@ -134,5 +134,24 @@ export const api = {
   createFuel: (data) => request('/fuel', {
     method: 'POST',
     body: JSON.stringify(data)
+  }),
+
+  // Alerts
+  getAlerts: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.vehicleId) query.set('vehicleId', params.vehicleId);
+    if (params.status) query.set('status', params.status);
+    if (params.severity) query.set('severity', params.severity);
+    const queryString = query.toString();
+    return request(`/alerts${queryString ? `?${queryString}` : ''}`);
+  },
+
+  createAlert: (data) => request('/alerts', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+
+  resolveAlert: (id) => request(`/alerts/${id}/resolve`, {
+    method: 'PUT'
   })
 };

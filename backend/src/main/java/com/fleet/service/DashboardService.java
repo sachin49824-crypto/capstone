@@ -1,5 +1,6 @@
 package com.fleet.service;
 
+import com.fleet.repository.AlertRepository;
 import com.fleet.repository.DriverRepository;
 import com.fleet.repository.TripRepository;
 import com.fleet.repository.VehicleRepository;
@@ -14,13 +15,16 @@ public class DashboardService {
     private final VehicleRepository vehicleRepository;
     private final DriverRepository driverRepository;
     private final TripRepository tripRepository;
+    private final AlertRepository alertRepository;
 
     public DashboardService(VehicleRepository vehicleRepository,
                             DriverRepository driverRepository,
-                            TripRepository tripRepository) {
+                            TripRepository tripRepository,
+                            AlertRepository alertRepository) {
         this.vehicleRepository = vehicleRepository;
         this.driverRepository = driverRepository;
         this.tripRepository = tripRepository;
+        this.alertRepository = alertRepository;
     }
 
     public Map<String, Object> summary() {
@@ -29,6 +33,7 @@ public class DashboardService {
         summary.put("totalDrivers", driverRepository.count());
         summary.put("activeTrips", tripRepository.countByEndTimeIsNull());
         summary.put("vehiclesInMaintenance", vehicleRepository.countByStatus("maintenance"));
+        summary.put("activeAlerts", alertRepository.countByStatus("ACTIVE"));
         return summary;
     }
 }

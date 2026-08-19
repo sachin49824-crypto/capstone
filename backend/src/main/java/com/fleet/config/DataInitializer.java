@@ -1,5 +1,6 @@
 package com.fleet.config;
 
+import com.fleet.entity.Alert;
 import com.fleet.entity.Driver;
 import com.fleet.entity.FuelLog;
 import com.fleet.entity.Location;
@@ -7,6 +8,7 @@ import com.fleet.entity.MaintenanceLog;
 import com.fleet.entity.Trip;
 import com.fleet.entity.User;
 import com.fleet.entity.Vehicle;
+import com.fleet.repository.AlertRepository;
 import com.fleet.repository.DriverRepository;
 import com.fleet.repository.FuelLogRepository;
 import com.fleet.repository.LocationRepository;
@@ -33,6 +35,7 @@ public class DataInitializer implements CommandLineRunner {
     private final LocationRepository locationRepository;
     private final MaintenanceLogRepository maintenanceLogRepository;
     private final FuelLogRepository fuelLogRepository;
+    private final AlertRepository alertRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(UserRepository userRepository,
@@ -42,6 +45,7 @@ public class DataInitializer implements CommandLineRunner {
                            LocationRepository locationRepository,
                            MaintenanceLogRepository maintenanceLogRepository,
                            FuelLogRepository fuelLogRepository,
+                           AlertRepository alertRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.driverRepository = driverRepository;
@@ -50,6 +54,7 @@ public class DataInitializer implements CommandLineRunner {
         this.locationRepository = locationRepository;
         this.maintenanceLogRepository = maintenanceLogRepository;
         this.fuelLogRepository = fuelLogRepository;
+        this.alertRepository = alertRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -162,5 +167,22 @@ public class DataInitializer implements CommandLineRunner {
         fuelLog.setOdometerReading(45210);
         fuelLog.setLocation("Indian Oil, Whitefield");
         fuelLogRepository.save(fuelLog);
+
+        Alert alert1 = new Alert();
+        alert1.setVehicleId(tata.getId());
+        alert1.setTripId(trip.getId());
+        alert1.setType("OVERSPEED");
+        alert1.setSeverity("WARNING");
+        alert1.setMessage("Vehicle KA-01-AB-1234 exceeded speed threshold (85 km/h on NH-44).");
+        alert1.setStatus("ACTIVE");
+        alertRepository.save(alert1);
+
+        Alert alert2 = new Alert();
+        alert2.setVehicleId(ashok.getId());
+        alert2.setType("MAINTENANCE_DUE");
+        alert2.setSeverity("CRITICAL");
+        alert2.setMessage("Vehicle KA-03-EF-9012 scheduled maintenance overdue by 3 days.");
+        alert2.setStatus("ACTIVE");
+        alertRepository.save(alert2);
     }
 }

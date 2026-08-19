@@ -32,7 +32,8 @@ export default function Dashboard({ user, onLogout }) {
     summary: null,
     vehicles: [],
     drivers: [],
-    trips: []
+    trips: [],
+    alerts: []
   });
 
   // Modal & Toast states
@@ -55,14 +56,15 @@ export default function Dashboard({ user, onLogout }) {
   const fetchData = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      const [summary, vehicles, drivers, trips] = await Promise.all([
+      const [summary, vehicles, drivers, trips, alerts] = await Promise.all([
         api.getSummary().catch(() => null),
         api.getVehicles().catch(() => []),
         api.getDrivers().catch(() => []),
-        api.getTrips().catch(() => [])
+        api.getTrips().catch(() => []),
+        api.getAlerts().catch(() => [])
       ]);
 
-      setData({ summary, vehicles, drivers, trips });
+      setData({ summary, vehicles, drivers, trips, alerts });
     } catch (err) {
       addToast(err.message || 'Failed to fetch dashboard data', 'error');
     } finally {
@@ -90,6 +92,10 @@ export default function Dashboard({ user, onLogout }) {
     } catch (err) {
       addToast(err.message || 'Action failed', 'error');
     }
+  };
+
+  const handleResolveAlert = (alertId) => {
+    handleSave(() => api.resolveAlert(alertId), 'Alert resolved.');
   };
 
   const activeTripsCount = (data.trips || []).filter(t => !t.end_time).length;
@@ -150,6 +156,7 @@ export default function Dashboard({ user, onLogout }) {
             data={data}
             setActiveTab={setActiveTab}
             openModal={setModal}
+            onResolveAlert={handleResolveAlert}
           />
         )}
 
@@ -189,7 +196,10 @@ export default function Dashboard({ user, onLogout }) {
         {activeTab === 'operations' && (
           <OperationsTab
             vehicles={data.vehicles}
+            alerts={data.alerts}
             openModal={setModal}
+            onResolveAlert={handleResolveAlert}
+            onRefresh={fetchData}
           />
         )}
       </div>
