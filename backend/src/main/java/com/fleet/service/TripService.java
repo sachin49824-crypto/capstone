@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@SuppressWarnings("null")
 public class TripService {
 
     private final TripRepository tripRepository;
@@ -79,7 +80,7 @@ public class TripService {
 
     public TripDto toDto(Trip trip) {
         String vehicleNumber = vehicleRepository.findById(trip.getVehicleId())
-                .map(Vehicle::getVehicleNumber).orElse(null);
+                .map(v -> v.getVehicleNumber()).orElse(null);
         String driverName = driverRepository.findById(trip.getDriverId())
                 .map(d -> d.getName()).orElse(null);
         return new TripDto(

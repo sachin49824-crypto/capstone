@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+@SuppressWarnings("null")
 public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
