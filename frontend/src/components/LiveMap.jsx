@@ -77,10 +77,23 @@ export default function LiveMap({ vehicles = [], trips = [], openModal, onRefres
 
       markersGroupRef.current = L.layerGroup().addTo(map);
       mapInstanceRef.current = map;
+
+      // Fix gray box tiles issue by invalidating size after initial render layout
+      // using ResizeObserver to ensure it perfectly matches the container size
+      const resizeObserver = new ResizeObserver(() => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.invalidateSize();
+        }
+      });
+      resizeObserver.observe(mapRef.current);
+      mapRef.current._resizeObserver = resizeObserver;
     }
 
     return () => {
       // Cleanup on unmount
+      if (mapRef.current && mapRef.current._resizeObserver) {
+        mapRef.current._resizeObserver.disconnect();
+      }
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
