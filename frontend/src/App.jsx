@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LoginPage from './LoginPage.jsx';
 import Dashboard from './components/Dashboard.jsx';
+import LandingPage from './components/LandingPage.jsx';
 import './style.css';
 
 export default function App() {
@@ -22,12 +23,16 @@ export default function App() {
     setUser(null);
   };
 
+  const [showLogin, setShowLogin] = useState(false);
+
   return (
     <div className="app-shell">
       {user ? (
         <Dashboard user={user} onLogout={handleLogout} />
-      ) : (
+      ) : showLogin ? (
         <LoginPage onLogin={handleLogin} />
+      ) : (
+        <LandingPage onGoToLogin={() => setShowLogin(true)} />
       )}
     </div>
   );
