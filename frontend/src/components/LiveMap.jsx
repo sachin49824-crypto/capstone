@@ -68,9 +68,9 @@ export default function LiveMap({ vehicles = [], trips = [], openModal, onRefres
         zoomControl: true
       });
 
-      // Dark theme Leaflet tiles from CartoDB Dark Matter
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
+      // Use OpenStreetMap standard tiles and apply CSS inversion for dark mode
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
         subdomains: 'abcd',
         maxZoom: 19
       }).addTo(map);
