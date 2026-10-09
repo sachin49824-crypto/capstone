@@ -12,7 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "app_user")
 public class User {
 
     @Id

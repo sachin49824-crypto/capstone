@@ -12,8 +12,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestControllerAdvice
 public class RestExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, Object>> handleResponseStatus(ResponseStatusException ex) {
@@ -35,6 +40,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+        log.error("Unhandled API exception: ", ex);
         return build(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error");
     }
 

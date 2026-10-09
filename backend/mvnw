@@ -1,0 +1,38 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Apache Maven Wrapper startup batch script for POSIX
+# ----------------------------------------------------------------------------
+
+set -e
+
+# find java
+if [ -n "$JAVA_HOME" ] ; then
+    if [ -x "$JAVA_HOME/bin/java" ] ; then
+        JAVACMD="$JAVA_HOME/bin/java"
+    else
+        echo "Error: JAVA_HOME is not defined correctly." >&2
+        exit 1
+    fi
+else
+    JAVACMD="java"
+fi
+
+if ! command -v "$JAVACMD" >/dev/null 2>&1; then
+    echo "Error: java command not found." >&2
+    exit 1
+fi
+
+MAVEN_PROJECT_BASEDIR="$(cd "$(dirname "$0")" && pwd)"
+MAVEN_WRAPPER_JAR="$MAVEN_PROJECT_BASEDIR/.mvn/wrapper/maven-wrapper.jar"
+
+if [ ! -f "$MAVEN_WRAPPER_JAR" ]; then
+    echo "Downloading Maven Wrapper..."
+    mkdir -p "$MAVEN_PROJECT_BASEDIR/.mvn/wrapper"
+    curl -sS -L -o "$MAVEN_WRAPPER_JAR" "https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar"
+fi
+
+exec "$JAVACMD" \
+  -classpath "$MAVEN_WRAPPER_JAR" \
+  "-Dmaven.multiModuleProjectDirectory=$MAVEN_PROJECT_BASEDIR" \
+  org.apache.maven.wrapper.MavenWrapperMain \
+  "$@"

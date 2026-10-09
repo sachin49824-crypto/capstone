@@ -25,6 +25,10 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
+        if (request == null || request.email() == null || request.password() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email and password are required");
+        }
+
         User user = userRepository.findByEmail(request.email().trim().toLowerCase())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
 

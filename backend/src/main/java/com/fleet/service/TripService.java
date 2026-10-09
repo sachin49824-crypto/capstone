@@ -44,6 +44,16 @@ public class TripService {
         trip.setStartLocation(request.startLocation());
         trip.setStartTime(Instant.now());
         trip.setStatus("started");
+
+        Vehicle vehicle = vehicleRepository.findById(request.vehicleId()).orElse(null);
+        if (vehicle != null) {
+            vehicle.setStatus("in_use");
+            if (request.startLocation() != null && !request.startLocation().isBlank()) {
+                vehicle.setCurrentLocation(request.startLocation());
+            }
+            vehicleRepository.save(vehicle);
+        }
+
         return toDto(tripRepository.save(trip));
     }
 

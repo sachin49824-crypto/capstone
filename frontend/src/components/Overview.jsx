@@ -18,11 +18,14 @@ export default function Overview({ data, setActiveTab, openModal }) {
   const trips = data.trips || [];
   const activeTrips = trips.filter(t => !t.end_time);
 
+  const alerts = data.alerts || [];
+  const activeAlerts = alerts.filter(a => a.status === 'ACTIVE');
+
   const kpis = [
     { title: 'Total Vehicles', value: summary.totalVehicles || vehicles.length || 0, icon: Truck, color: 'indigo' },
     { title: 'Available Drivers', value: summary.totalDrivers || data.drivers?.length || 0, icon: Users, color: 'emerald' },
     { title: 'Active Trips', value: summary.activeTrips || activeTrips.length || 0, icon: Navigation, color: 'amber' },
-    { title: 'In Maintenance', value: summary.vehiclesInMaintenance || 0, icon: Wrench, color: 'rose' },
+    { title: 'Active Alerts', value: summary.activeAlerts ?? activeAlerts.length ?? 0, icon: ShieldAlert, color: 'rose' },
   ];
 
   const formatDate = (str) => {
