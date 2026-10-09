@@ -3,7 +3,6 @@ package com.fleet.service;
 import com.fleet.dto.AlertDto;
 import com.fleet.dto.AlertRequest;
 import com.fleet.entity.Alert;
-import com.fleet.entity.Vehicle;
 import com.fleet.repository.AlertRepository;
 import com.fleet.repository.VehicleRepository;
 import org.springframework.data.domain.Sort;
@@ -15,6 +14,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@SuppressWarnings("null")
 public class AlertService {
 
     private final AlertRepository alertRepository;
@@ -73,7 +73,7 @@ public class AlertService {
         String vehicleNumber = null;
         if (alert.getVehicleId() != null) {
             vehicleNumber = vehicleRepository.findById(alert.getVehicleId())
-                    .map(Vehicle::getVehicleNumber)
+                    .map(v -> v.getVehicleNumber())
                     .orElse(null);
         }
         return new AlertDto(

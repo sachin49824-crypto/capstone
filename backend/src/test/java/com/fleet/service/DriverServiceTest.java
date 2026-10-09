@@ -14,14 +14,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"all", "null"})
 class DriverServiceTest {
 
     @Mock
@@ -35,6 +39,11 @@ class DriverServiceTest {
 
     private Driver sampleDriver;
 
+    @SuppressWarnings("null")
+    private Driver anyDriver() {
+        return any(Driver.class);
+    }
+
     @BeforeEach
     void setUp() {
         sampleDriver = new Driver();
@@ -47,7 +56,7 @@ class DriverServiceTest {
 
     @Test
     void list_AllDrivers() {
-        when(driverRepository.findAll(any(Sort.class))).thenReturn(List.of(sampleDriver));
+        when(driverRepository.findAll(Sort.by("name"))).thenReturn(List.of(sampleDriver));
 
         List<DriverDto> result = driverService.list(null);
 
@@ -68,7 +77,7 @@ class DriverServiceTest {
     @Test
     void create_Success() {
         DriverRequest request = new DriverRequest("Priya Sharma", "+91-98123-45678", "DL-KA-2022-011234", "active");
-        when(driverRepository.save(any(Driver.class))).thenReturn(sampleDriver);
+        when(driverRepository.save(anyDriver())).thenReturn(sampleDriver);
 
         DriverDto result = driverService.create(request);
 
@@ -80,12 +89,12 @@ class DriverServiceTest {
     void update_Success() {
         UpdateDriverRequest request = new UpdateDriverRequest(null, "+91-99999-99999", null, "on_leave");
         when(driverRepository.findById(10L)).thenReturn(Optional.of(sampleDriver));
-        when(driverRepository.save(any(Driver.class))).thenReturn(sampleDriver);
+        when(driverRepository.save(Objects.requireNonNull(sampleDriver))).thenReturn(sampleDriver);
 
         DriverDto result = driverService.update(10L, request);
 
         assertNotNull(result);
-        verify(driverRepository, times(1)).save(sampleDriver);
+        verify(driverRepository, times(1)).save(Objects.requireNonNull(sampleDriver));
     }
 
     @Test
