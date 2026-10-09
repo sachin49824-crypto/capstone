@@ -1,4 +1,0 @@
-
-The following files have been resolved:
-   org.xerial:sqlite-jdbc:jar:3.41.2.1:compile[36m -- module org.xerial.sqlitejdbc[m
-
