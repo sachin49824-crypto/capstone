@@ -16,7 +16,6 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
-@SuppressWarnings("null")
 public class TripService {
 
     private final TripRepository tripRepository;

@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
-@SuppressWarnings("null")
 public class AlertService {
 
     private final AlertRepository alertRepository;
