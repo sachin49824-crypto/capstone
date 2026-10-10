@@ -83,4 +83,32 @@ class AuthServiceTest {
     void login_NullRequest_ThrowsException() {
         assertThrows(ResponseStatusException.class, () -> authService.login(null));
     }
+
+    @Test
+    void register_Success() {
+        com.fleet.dto.RegisterRequest request = new com.fleet.dto.RegisterRequest("New User", "newuser@fleet.com", "secret123");
+        when(userRepository.findByEmail("newuser@fleet.com")).thenReturn(Optional.empty());
+        when(passwordEncoder.encode("secret123")).thenReturn("encodedSecret");
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User u = invocation.getArgument(0);
+            u.setId(2L);
+            return u;
+        });
+        when(jwtService.generateToken(any(User.class))).thenReturn("new-jwt-token");
+
+        LoginResponse response = authService.register(request);
+
+        assertNotNull(response);
+        assertEquals("new-jwt-token", response.token());
+        assertEquals("newuser@fleet.com", response.user().email());
+        assertEquals("New User", response.user().name());
+    }
+
+    @Test
+    void register_EmailAlreadyExists_ThrowsConflict() {
+        com.fleet.dto.RegisterRequest request = new com.fleet.dto.RegisterRequest("Admin", "admin@fleet.com", "secret123");
+        when(userRepository.findByEmail("admin@fleet.com")).thenReturn(Optional.of(sampleUser));
+
+        assertThrows(ResponseStatusException.class, () -> authService.register(request));
+    }
 }

@@ -2,6 +2,7 @@ package com.fleet.service;
 
 import com.fleet.dto.LoginRequest;
 import com.fleet.dto.LoginResponse;
+import com.fleet.dto.RegisterRequest;
 import com.fleet.dto.UserDto;
 import com.fleet.entity.User;
 import com.fleet.repository.UserRepository;
@@ -38,5 +39,26 @@ public class AuthService {
 
         String token = jwtService.generateToken(user);
         return new LoginResponse(token, new UserDto(user.getId(), user.getName(), user.getEmail(), user.getRole()));
+    }
+
+    public LoginResponse register(RegisterRequest request) {
+        if (request == null || request.email() == null || request.password() == null || request.name() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name, email, and password are required");
+        }
+
+        String normalizedEmail = request.email().trim().toLowerCase();
+        if (userRepository.findByEmail(normalizedEmail).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "An account with this email already exists");
+        }
+
+        User user = new User();
+        user.setName(request.name().trim());
+        user.setEmail(normalizedEmail);
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole("USER");
+        User savedUser = userRepository.save(user);
+
+        String token = jwtService.generateToken(savedUser);
+        return new LoginResponse(token, new UserDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail(), savedUser.getRole()));
     }
 }
