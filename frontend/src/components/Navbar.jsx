@@ -73,13 +73,13 @@ export default function Navbar({
 
         <div className="user-profile-badge">
           <div className="avatar-circle">
-            {user?.name ? user.name[0].toUpperCase() : 'A'}
+            {user?.name ? user.name[0].toUpperCase() : (user?.email ? user.email[0].toUpperCase() : 'U')}
           </div>
           <div className="user-info">
-            <span className="user-name">{user?.name || 'Administrator'}</span>
+            <span className="user-name">{user?.name || user?.email || 'Fleet User'}</span>
             <span className="user-role">
               <ShieldCheck size={11} style={{ display: 'inline', marginRight: 2 }} />
-              {user?.role || 'ROLE_ADMIN'}
+              {user?.role === 'ADMIN' || user?.role === 'ROLE_ADMIN' ? 'Fleet Admin' : 'Fleet Manager'}
             </span>
           </div>
         </div>

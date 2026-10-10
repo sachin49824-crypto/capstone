@@ -39,19 +39,19 @@ public class DriverController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public DriverDto create(@Valid @RequestBody DriverRequest request) {
         return driverService.create(request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public DriverDto update(@PathVariable Long id, @RequestBody UpdateDriverRequest request) {
         return driverService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public void delete(@PathVariable Long id) {
         driverService.delete(id);
     }

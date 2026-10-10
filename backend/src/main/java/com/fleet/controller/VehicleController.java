@@ -40,19 +40,19 @@ public class VehicleController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public VehicleDto create(@Valid @RequestBody VehicleRequest request) {
         return vehicleService.create(request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public VehicleDto update(@PathVariable Long id, @RequestBody UpdateVehicleRequest request) {
         return vehicleService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public void delete(@PathVariable Long id) {
         vehicleService.delete(id);
     }

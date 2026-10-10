@@ -30,7 +30,7 @@ public class FuelController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public FuelDto create(@Valid @RequestBody FuelRequest request) {
         return fuelService.create(request);
     }

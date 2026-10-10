@@ -30,7 +30,7 @@ public class MaintenanceController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public MaintenanceDto create(@Valid @RequestBody MaintenanceRequest request) {
         return maintenanceService.create(request);
     }
