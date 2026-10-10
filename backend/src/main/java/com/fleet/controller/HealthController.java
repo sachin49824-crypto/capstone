@@ -16,4 +16,13 @@ public class HealthController {
         body.put("service", "fleet-api");
         return body;
     }
+
+    @GetMapping("/")
+    public Map<String, Object> root() {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", "ok");
+        body.put("message", "Fleet Monitoring API is running!");
+        body.put("docs", "Access the frontend at http://localhost:5173");
+        return body;
+    }
 }

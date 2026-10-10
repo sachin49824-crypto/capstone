@@ -1,0 +1,101 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.fleet:fleet-monitoring >---------------------
+[INFO] Building fleet-monitoring 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.4:run (default-cli) > test-compile @ fleet-monitoring >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fleet-monitoring ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ fleet-monitoring ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fleet-monitoring ---
+[INFO] skip non existing resourceDirectory C:\Users\sachi\OneDrive\Desktop\sac.capstone\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ fleet-monitoring ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.4:run (default-cli) < test-compile @ fleet-monitoring <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.4:run (default-cli) @ fleet-monitoring ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.4)
+
+2026-08-18T22:08:47.275+05:30  INFO 17392 --- [           main] com.fleet.FleetApplication               : Starting FleetApplication using Java 26.0.2 with PID 17392 (C:\Users\sachi\OneDrive\Desktop\sac.capstone\backend\target\classes started by sachi in C:\Users\sachi\OneDrive\Desktop\sac.capstone\backend)
+2026-08-18T22:08:47.279+05:30  INFO 17392 --- [           main] com.fleet.FleetApplication               : No active profile set, falling back to 1 default profile: "default"
+2026-08-18T22:08:48.412+05:30  INFO 17392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-08-18T22:08:48.518+05:30  INFO 17392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 7 JPA repository interfaces.
+2026-08-18T22:08:49.424+05:30  INFO 17392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-08-18T22:08:49.452+05:30  INFO 17392 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-18T22:08:49.452+05:30  INFO 17392 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2026-08-18T22:08:49.646+05:30  INFO 17392 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-08-18T22:08:49.647+05:30  INFO 17392 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2287 ms
+2026-08-18T22:08:49.956+05:30  INFO 17392 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-08-18T22:08:50.143+05:30  INFO 17392 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2026-08-18T22:08:50.221+05:30  INFO 17392 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-08-18T22:08:50.967+05:30  INFO 17392 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-08-18T22:08:51.080+05:30  INFO 17392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-18T22:08:51.397+05:30  INFO 17392 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:fleet_monitoring user=SA
+2026-08-18T22:08:51.400+05:30  INFO 17392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-18T22:08:51.500+05:30  INFO 17392 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-08-18T22:08:53.210+05:30  INFO 17392 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table "app_user" ("id" bigint generated by default as identity, "created_at" timestamp(6) with time zone, "email" varchar(255) not null, "name" varchar(255) not null, "password" varchar(255) not null, "role" varchar(255) not null, "updated_at" timestamp(6) with time zone, primary key ("id"))
+Hibernate: create table "driver" ("id" bigint generated by default as identity, "created_at" timestamp(6) with time zone, "license_number" varchar(255), "name" varchar(255) not null, "phone" varchar(255), "status" varchar(255) not null, "updated_at" timestamp(6) with time zone, primary key ("id"))
+Hibernate: create table "fuel_log" ("id" bigint generated by default as identity, "cost" numeric(38,2), "created_at" timestamp(6) with time zone, "filled_at" timestamp(6) with time zone, "fuel_type" varchar(255), "location" varchar(255), "notes" varchar(255), "odometer_reading" integer, "quantity" numeric(38,2) not null, "vehicle_id" bigint not null, primary key ("id"))
+Hibernate: create table "location" ("id" bigint generated by default as identity, "accuracy" numeric(38,2), "altitude" numeric(38,2), "created_at" timestamp(6) with time zone, "heading" numeric(38,2), "latitude" numeric(38,2) not null, "longitude" numeric(38,2) not null, "recorded_at" timestamp(6) with time zone, "speed" numeric(38,2), "trip_id" bigint, "vehicle_id" bigint not null, primary key ("id"))
+Hibernate: create table "maintenance_log" ("id" bigint generated by default as identity, "cost" numeric(38,2), "created_at" timestamp(6) with time zone, "description" varchar(255), "maintenance_type" varchar(255) not null, "notes" varchar(255), "service_date" date, "status" varchar(255) not null, "updated_at" timestamp(6) with time zone, "vehicle_id" bigint not null, primary key ("id"))
+Hibernate: create table "trip" ("id" bigint generated by default as identity, "created_at" timestamp(6) with time zone, "distance" numeric(38,2), "driver_id" bigint not null, "duration_minutes" integer, "end_location" varchar(255), "end_time" timestamp(6) with time zone, "fuel_consumed" numeric(38,2), "start_location" varchar(255), "start_time" timestamp(6) with time zone, "status" varchar(255) not null, "updated_at" timestamp(6) with time zone, "vehicle_id" bigint not null, primary key ("id"))
+Hibernate: create table "vehicle" ("id" bigint generated by default as identity, "color" varchar(255), "created_at" timestamp(6) with time zone, "current_location" varchar(255), "driver_id" bigint, "fuel_type" varchar(255), "make" varchar(255), "model" varchar(255), "status" varchar(255) not null, "updated_at" timestamp(6) with time zone, "vehicle_number" varchar(255) not null, "year" integer, primary key ("id"))
+Hibernate: alter table if exists "app_user" drop constraint if exists "UKjxbdm8lmywps4130rr4plqlgf"
+Hibernate: alter table if exists "app_user" add constraint "UKjxbdm8lmywps4130rr4plqlgf" unique ("email")
+Hibernate: alter table if exists "vehicle" drop constraint if exists "UKcek7lf6hqkhn6reddyv35o7bm"
+Hibernate: alter table if exists "vehicle" add constraint "UKcek7lf6hqkhn6reddyv35o7bm" unique ("vehicle_number")
+2026-08-18T22:08:53.320+05:30  INFO 17392 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-08-18T22:08:54.137+05:30  WARN 17392 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-08-18T22:08:54.478+05:30  WARN 17392 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 83f157ea-d752-4ff1-9dea-5be58908614c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-08-18T22:08:54.489+05:30  INFO 17392 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-08-18T22:08:54.967+05:30  INFO 17392 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:fleet_monitoring'
+2026-08-18T22:08:55.163+05:30  INFO 17392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-08-18T22:08:55.175+05:30  INFO 17392 --- [           main] com.fleet.FleetApplication               : Started FleetApplication in 8.701 seconds (process running for 9.408)
+Hibernate: select count(*) from "app_user" u1_0
+Hibernate: insert into "app_user" ("created_at","email","name","password","role","updated_at","id") values (?,?,?,?,?,?,default)
+Hibernate: insert into "driver" ("created_at","license_number","name","phone","status","updated_at","id") values (?,?,?,?,?,?,default)
+Hibernate: insert into "driver" ("created_at","license_number","name","phone","status","updated_at","id") values (?,?,?,?,?,?,default)
+Hibernate: insert into "driver" ("created_at","license_number","name","phone","status","updated_at","id") values (?,?,?,?,?,?,default)
+Hibernate: insert into "vehicle" ("color","created_at","current_location","driver_id","fuel_type","make","model","status","updated_at","vehicle_number","year","id") values (?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "vehicle" ("color","created_at","current_location","driver_id","fuel_type","make","model","status","updated_at","vehicle_number","year","id") values (?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "vehicle" ("color","created_at","current_location","driver_id","fuel_type","make","model","status","updated_at","vehicle_number","year","id") values (?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "trip" ("created_at","distance","driver_id","duration_minutes","end_location","end_time","fuel_consumed","start_location","start_time","status","updated_at","vehicle_id","id") values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "location" ("accuracy","altitude","created_at","heading","latitude","longitude","recorded_at","speed","trip_id","vehicle_id","id") values (?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "maintenance_log" ("cost","created_at","description","maintenance_type","notes","service_date","status","updated_at","vehicle_id","id") values (?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into "fuel_log" ("cost","created_at","filled_at","fuel_type","location","notes","odometer_reading","quantity","vehicle_id","id") values (?,?,?,?,?,?,?,?,?,default)
+2026-08-18T22:10:17.837+05:30  WARN 17392 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56s336ms631µs200ns).
+2026-08-18T22:41:42.937+05:30  WARN 17392 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m55s49ms504µs700ns).
+2026-08-18T23:06:14.069+05:30  WARN 17392 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m1s90ms732µs700ns).
+2026-08-18T23:19:52.608+05:30  WARN 17392 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m38s530ms954µs300ns).
